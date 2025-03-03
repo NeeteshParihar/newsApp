@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News 2.0</title>
+    <!-- Link to Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Link to CSS File -->
+    <link rel="stylesheet" href="./utility.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" href="./media/icon.png">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar Div (Left Sidebar) -->
+      <div class="sidebar">
+        <div class="categories">
+          <h2>Categories</h2>
+          <ul>
+            <li><a class="category" href="#">Business</a></li>
+            <li><a class="category" href="#">Entertainment</a></li>
+            <li><a class="category" href="#">General</a></li>
+            <li><a class="category" href="#">Health</a></li>
+            <li><a class="category" href="#">Science</a></li>
+            <li><a class="category" href="#">Sports</a></li>
+            <li><a class="category" href="#">Technology</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Main Content Div (Right Content) -->
+      <div class="main-content">
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+          <div id="heading"></div>
+
+          <div class="buttons">
+            <span id="count"></span>
+            <input
+              id="inputArticle"
+              type="number"
+              placeholder="enter article number"
+            />
+            <button id="left" class="nav-button">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <button id="right" class="nav-button">
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- News Display Area -->
+        <div id="news-display"></div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
