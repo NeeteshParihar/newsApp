@@ -1,69 +1,75 @@
 
+import getUrl from "./url.js";
 
-document.addEventListener("DOMContentLoaded" , async ()=>{
-    const catergories = 
-    document.querySelectorAll(".category") ;
+console.log(getUrl);
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+
+
+    const catergories =
+        document.querySelectorAll(".category");
     const articleContainer =
-     document.getElementById("news-display") ;
+        document.getElementById("news-display");
     const leftButton =
-     document.getElementById("left") ;
-    const rightButton = 
-    document.getElementById("right") ;
+        document.getElementById("left");
+    const rightButton =
+        document.getElementById("right");
     const headingContainer =
-    document.getElementById("heading") ;
-    const countContainer = 
-    document.getElementById("count") ;
-    const inputContainer = 
-    document.getElementById("inputArticle") ;
+        document.getElementById("heading");
+    const countContainer =
+        document.getElementById("count");
+    const inputContainer =
+        document.getElementById("inputArticle");
 
 
 
 
-    let articles = [] ;
-    let index = 0 ;
-    let currentCategory = "business" ;
-    let prevCategoryElement = undefined ;
+    let articles = [];
+    let index = 0;
+    let currentCategory = "business";
+    let prevCategoryElement = undefined;
 
-    let url = `https://newsapi.org/v2/top-headlines?category=${currentCategory}&apiKey=bc89cb9102ef4a858c62e2ae29714a2f`  ;
+    let url = getUrl(currentCategory);
 
-    function changeHeading(currentCategory){
-        headingContainer.textContent = `${currentCategory} news ` ;
+    function changeHeading(currentCategory) {
+        headingContainer.textContent = `${currentCategory} news `;
 
-        console.log(headingContainer) ;
-
-    } 
-
-    function changeCount(){
-        countContainer.textContent = `${index+1}/${articles.length}` ;
+        // console.log(headingContainer) ;
 
     }
 
-    function changeUrl(currentCategory){
-        url =`https://newsapi.org/v2/top-headlines?category=${currentCategory}&apiKey=bc89cb9102ef4a858c62e2ae29714a2f` 
+    function changeCount() {
+        countContainer.textContent = `${index + 1}/${articles.length}`;
+
     }
 
-    async  function fetchArticles(url){
+    function changeUrl(currentCategory) {
+        url = getUrl(currentCategory);
+    }
 
-        try{
+    async function fetchArticles(url) {
 
-            const req = new Request(url) ;
-            const res = await fetch(req) ;
-            const obj = await res.json() ;
+        try {
 
-            return obj.articles ;
+            const req = new Request(url);
+            const res = await fetch(req);
+            const obj = await res.json();
 
-        }catch(error){
-            console.log("error occured") ;
-            console.log(error) ;
+            return obj.articles;
+
+        } catch (error) {
+            console.log("error occured");
+            console.log(error);
         }
 
     }
 
-    function displayArticle(index){
+    function displayArticle(index) {
 
-        articleContainer.innerHTML = "" ;
+        articleContainer.innerHTML = "";
 
-        const article = articles[index] ;
+        const article = articles[index];
 
 
         const publisher = article.source.name;
@@ -88,19 +94,19 @@ document.addEventListener("DOMContentLoaded" , async ()=>{
         // Author Section
         const authCont = document.createElement("div");
         authCont.classList.add("author");
-        authCont.textContent = `Author : ${author}`; 
+        authCont.textContent = `Author : ${author}`;
         container.appendChild(authCont);
 
         // Title Section
         const titleCont = document.createElement("div");
         titleCont.classList.add("title");
-        titleCont.textContent = `Title : ${title}`;  
+        titleCont.textContent = `Title : ${title}`;
         container.appendChild(titleCont);
 
         // Description Section
         const descriptionCont = document.createElement("div");
         descriptionCont.classList.add("description");
-        descriptionCont.textContent = `description : ${description}`; 
+        descriptionCont.textContent = `description : ${description}`;
         container.appendChild(descriptionCont);
 
         // Image Section
@@ -127,106 +133,108 @@ document.addEventListener("DOMContentLoaded" , async ()=>{
         // Link to the article
         const link = document.createElement("a");
         link.href = sourceUrl;
-        link.target = "_blank"; 
+        link.target = "_blank";
         link.textContent = "Read more";
         container.appendChild(link);
 
         // Append the article to the body or a specific container
 
-        articleContainer .appendChild(container) ;
+        articleContainer.appendChild(container);
 
 
     }
 
 
     catergories.forEach(
-        (catergory)=>{
+        (catergory) => {
 
-            catergory.addEventListener("click", async ()=>{
+            catergory.addEventListener("click", async () => {
 
-                
-                const categoryInlowerCase = catergory.textContent.toLowerCase() ;
-                index = 0 ;
+
+                const categoryInlowerCase = catergory.textContent.toLowerCase();
+                index = 0;
                 changeHeading(catergory.textContent)
-                changeUrl(categoryInlowerCase) ;
-                if(prevCategoryElement !== undefined){
-                    prevCategoryElement.classList.remove("currentCategoryElementStyle") ;
-                    
+                changeUrl(categoryInlowerCase);
+                if (prevCategoryElement !== undefined) {
+                    prevCategoryElement.classList.remove("currentCategoryElementStyle");
+
                 }
-                prevCategoryElement = catergory ;
-                catergory.classList.add("currentCategoryElementStyle") ;
-
-                
-
-                const res = await fetchArticles(url) ;
-                articles =  res ;
+                prevCategoryElement = catergory;
+                catergory.classList.add("currentCategoryElementStyle");
 
 
-                displayArticle(index) ;
-                changeCount() ;
+
+                const res = await fetchArticles(url);
+                articles = res;
+
+
+                displayArticle(index);
+                changeCount();
 
 
             })
         }
     )
 
-    leftButton.addEventListener("click" , ()=>{
+    leftButton.addEventListener("click", () => {
 
-        index-- ;
+        index--;
 
-        if(index < 0){
-            index = articles.length -1 ;
+        if (index < 0) {
+            index = articles.length - 1;
         }
-        changeCount() ;
-        displayArticle(index) ;
+        changeCount();
+        displayArticle(index);
 
     })
 
-    rightButton.addEventListener("click" , ()=>{
+    rightButton.addEventListener("click", () => {
 
-        index++ ;
+        index++;
 
-        if(index >= articles.length){
-            index = 0 ;
+        if (index >= articles.length) {
+            index = 0;
         }
-        changeCount() ;
+        changeCount();
 
 
-        displayArticle(index) ;
+        displayArticle(index);
 
     })
 
-    inputContainer.addEventListener("keydown" , (event)=>{
+    inputContainer.addEventListener("keydown", (event) => {
 
-        if(event.key === "Enter" ){
-            const val = Number(inputContainer.value) ;
-            index = val-1 ;
-            if(index < 0 || index >= articles.length)
-                return ;
-            displayArticle(index) ;
-            changeCount() ;
-            
+        if (event.key === "Enter") {
+            const val = Number(inputContainer.value);
+            index = val - 1;
+            if (index < 0 || index >= articles.length)
+                return;
+            displayArticle(index);
+            changeCount();
+
+            inputContainer.value = "";
+
         }
 
 
     })
 
-      
-    
-   
-    changeHeading("Business" ) ;
-
-    const res = await fetchArticles(url) ;
-    articles =  res ;
-    displayArticle(index) ;
-    changeCount() ;
-    const currentElement= document.querySelectorAll(".category")[0] ;
-
-    console.log(currentElement) ;
-    prevCategoryElement = currentElement ;
-    currentElement.classList.add("currentCategoryElementStyle") ;
 
 
-    
+
+    changeHeading("Business");
+
+    const res = await fetchArticles(url);
+    articles = res;
+    displayArticle(index);
+    changeCount();
+    const currentElement = document.querySelectorAll(".category")[0];
+
+    console.log(currentElement);
+    prevCategoryElement = currentElement;
+    currentElement.classList.add("currentCategoryElementStyle");
+
+
+
 
 })
